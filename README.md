@@ -3,6 +3,7 @@
 ### What is this repository for? ###
 
 This is a maven project with configured:
+
 * slf4j logger and log4j binding with configuration file 
 * dependencies and resources are moving by maven to seperate directories
 * building all project in target/application directory
