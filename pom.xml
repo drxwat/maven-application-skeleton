@@ -3,14 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>su.loboda</groupId>
-	<artifactId>sand-deamon-loger</artifactId>
+	<artifactId>application-skeleton</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>sand-deamon-loger</name>
+	<name>application-skeleton</name>
 	<url>http://loboda.su</url>
 
 	<properties>
+		<applicationName>application-skeleton</applicationName>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.8</jdk.version>
 		<junit.version>4.12</junit.version>
@@ -45,11 +46,10 @@
 			<artifactId>slf4j-ext</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
-		<finalName>SDL</finalName>
+		<finalName>${applicationName}</finalName>
 		<plugins>
 			<!-- Set a compiler level -->
 			<plugin>
@@ -68,15 +68,16 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
-					<outputDirectory>${project.build.directory}/application</outputDirectory>
+					<outputDirectory>${project.build.directory}/${applicationName}</outputDirectory>
 					<excludes>
-						<exclude>**/log4j.properties</exclude>
+						<exclude>**/config/</exclude>
+						<exclude>**/shell/</exclude>
 					</excludes>
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>su.loboda.sand_deamon_loger.App</mainClass>
-							<classpathPrefix>dependency-jars/</classpathPrefix>
+							<mainClass>su.loboda.App</mainClass>
+							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>
 				</configuration>
@@ -89,7 +90,7 @@
 				<version>2.10</version>
 				<executions>
 					<execution>
-						<id>copy-dependencies</id>
+						<id>copy-config</id>
 						<phase>package</phase>
 						<goals>
 							<goal>copy-dependencies</goal>
@@ -97,7 +98,7 @@
 						<configuration>
 							<!-- exclude junit, we need runtime dependency only -->
 							<includeScope>runtime</includeScope>
-							<outputDirectory>${project.build.directory}/application/dependency-jars/</outputDirectory>
+							<outputDirectory>${project.build.directory}/${applicationName}/lib/</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -108,16 +109,16 @@
 				<version>2.7</version>
 				<executions>
 					<execution>
-						<id>copy-resources</id>
+						<id>copy-config</id>
 						<phase>validate</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/application/configurable-resources/</outputDirectory>
+							<outputDirectory>${project.build.directory}/${applicationName}/config/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src/main/resources</directory>
+									<directory>src/main/resources/config</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -125,7 +126,24 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Change permissions on shell scripts -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptor>${project.basedir}/src/assembly/permissions-assembly.xml</descriptor>
+				</configuration>
+				<executions>
+					<execution>
+						<id>change-permissions</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
