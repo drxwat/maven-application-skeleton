@@ -1,13 +1,18 @@
 # README #
 
-### What is this repository for? ###
+### Цель существования данного репозитрия? ###
 
-This is a maven project with configured:
+Данный maven проект служит каркасом для новых приложений. В нем уже настроено следующее:
 
-* slf4j logger and log4j binding with configuration file 
-* dependencies and resources are moving by maven to seperate directories
-* building all project in target/application directory
+* Приложение собирается в директорию target/${applicationName} далее APP_DIR
+* На выходе все зависимости попадают в директорию APP_DIR/lib
+* На выходе все конфигурационные файлы из src/main/resources/config попадают APP_DIR/config
+* На выходе все sh|bat файлы из src/main/resources/bin попадаю в APP_DIR/bin
+* По умолчанию настроен slf4j логгер с log4j binding и конфигурационным файлом, который пишет в APP_DIR/log/runtime.log всю информацию уровня trace 
+* Исходный конфигурационный файл для log4j живет в src/main/resources/config/log4j2.xml
+*  На выходе стартовый скрипт APP_DIR/bin/applcation.sh с правами на запуск
 
-### What to be done (TODO) ###
+### TODO ###
 
-* Write start *.sh script with parameters to start the application in several modes (e.g. DEBUG mode) and with corret params (e.g. path to log4j config)
+* Написать bat файл идентичный стартовому sh скрипту
+* Предусмотреть включение debug и production режима как параметра стартового скрипта
