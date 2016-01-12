@@ -71,7 +71,7 @@
 					<outputDirectory>${project.build.directory}/${applicationName}</outputDirectory>
 					<excludes>
 						<exclude>**/config/</exclude>
-						<exclude>**/shell/</exclude>
+						<exclude>**/bin/</exclude>
 					</excludes>
 					<archive>
 						<manifest>
@@ -126,7 +126,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Change permissions on shell scripts -->
+			<!-- Change permissions on shell scripts in bin directory -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.6</version>
